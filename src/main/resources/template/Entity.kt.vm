@@ -1,0 +1,35 @@
+package ${mainPath}.${entityPackage}
+
+import org.ktorm.database.Database
+import org.ktorm.entity.Entity
+import org.ktorm.entity.sequenceOf
+import org.ktorm.schema.*
+#if(${hasDate})
+    import java.time.LocalDate
+#end
+#if(${hasDateTime})
+    import java.time.LocalDateTime
+#end
+
+$set($columns = $table.columns)
+interface ${table.className} : Entity<${table.className}> {
+    companion object : Entity.Factory<${table.className}>()
+
+    /**
+     * ${column.comments}
+     */
+    #foreach($column in $columns)
+        var $column.attrName: $column.attrType
+    #end
+}
+
+
+object ${table.classNamePlural} : Table<${table.className}>("${table.tableName}") {
+
+    #foreach($column in $columns)
+        val $column.attrName = $column.ktormType("$column.columnName")#if($column.primary).primaryKey()#end.bindTo { it.$column.attrName }
+    #end
+}
+
+#set($lowerCase = $table.classNamePlura.toLowerCase())
+val Database.${lowerCase} get() = this.sequenceOf(${table.classNamePlural})

@@ -1,5 +1,6 @@
 package com.github.diantongren.ktormcodehelper
 
+import com.github.diantongren.ktormcodehelper.ui.ORMSettingsUI
 import com.intellij.database.dialects.DatabaseDialect
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject

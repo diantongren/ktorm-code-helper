@@ -29,32 +29,39 @@ class GeneratorImpl : AbstractGenerator() {
     override fun generateORM(project: Project, context: CodeGenContext) {
         val modelPackageName = context.modelPath?.split("/kotlin/")?.get(1)?.replace("/", ".") ?: return
         val daoPackageName = context.daoPath?.split("/kotlin/")?.get(1)?.replace("/", ".") ?: return
-        getTables(context.daoPath, modelPackageName, daoPackageName).forEach {
-            // model
-            writeFile(
-                project,
-                context.modelPath,
-                "${it.className}.kt",
-                "Entity.ftl",
-                it
-            )
+        val tables = getTables(context.prefix, modelPackageName, daoPackageName)
+        tables
+            .forEach {
+                // model
+                writeFile(
+                    project,
+                    context.modelPath,
+                    "${it.className}.kt",
+                    "Entity.ftl",
+                    it
+                )
 
-            // dao
+                // dao
+                writeFile(
+                    project,
+                    context.daoPath,
+                    "${it.className}Dao.kt",
+                    "Dao.ftl",
+                    it
+                )
+            }
+
+        if (tables.isNotEmpty()) {
             writeFile(
                 project,
                 context.daoPath,
-                "${it.className}Dao.kt",
-                "Dao.ftl",
-                it
+                "BaseDao.kt",
+                "BaseDao.ftl",
+                tables.first()
             )
         }
-        writeFile(
-            project,
-            context.daoPath,
-            "BaseDao.kt",
-            "BaseDao.ftl",
-            Any()
-        )
+
+
     }
 
     private fun getTables(prefix: String?, modelPackageName: String, daoPackageName: String): List<Table> {

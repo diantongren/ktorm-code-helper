@@ -23,5 +23,12 @@ data class MyModel(
     val packageName: String,
     val hasDate: Boolean,
     val hasDateTime: Boolean,
-    val table: MyTable
+    val table: MyTable,
+    val tables: List<MyTable>?
+)
+
+data class ORMConfig(
+    var entityPath: String?,
+    var daoPath: String?,
+    var prefix: String?
 )

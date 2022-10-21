@@ -1,4 +1,4 @@
-package com.github.diantongren.ktormcodehelper.module
+package com.github.diantongren.ktormcodehelper.component
 
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory

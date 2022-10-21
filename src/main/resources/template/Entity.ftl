@@ -1,4 +1,4 @@
-package ${packageName}
+package ${modelPackageName}
 
 import org.ktorm.database.Database
 import org.ktorm.entity.Entity
@@ -11,10 +11,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 </#if>
 
-<#assign columns = table.columns>
-interface ${table.className} : Entity<${table.className}> {
+interface ${className} : Entity<${className}> {
 
-    companion object : Entity.Factory<${table.className}>()
+    companion object : Entity.Factory<${className}>()
 
 <#list columns as column>
     <#if column.comments??>
@@ -27,7 +26,7 @@ interface ${table.className} : Entity<${table.className}> {
 </#list>
 }
 
-object ${table.classNamePlural} : Table<${table.className}>("${table.tableName}") {
+object ${classNamePlural} : Table<${className}>("${tableName}") {
 
 <#list columns as column>
     val ${column.attrName} = ${column.ktormType}("${column.columnName}")<#if column.primary>.primaryKey()</#if>.bindTo { it.${column.attrName} }
@@ -35,4 +34,4 @@ object ${table.classNamePlural} : Table<${table.className}>("${table.tableName}"
 </#list>
 }
 
-val Database.${table.seq} get() = this.sequenceOf(${table.classNamePlural})
+val Database.${ktormSequence} get() = this.sequenceOf(${classNamePlural})

@@ -7,6 +7,10 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.database</depends>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="com.github.diantongren.ktormcodehelper.state.DataSetting"/>
+    </extensions>
+
 
     <actions>
         <action id="com.github.diantongren.ktormcodehelper.KtormGenerateAction"
